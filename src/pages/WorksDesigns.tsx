@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
@@ -114,26 +115,31 @@ const WorksDesigns = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="group cursor-pointer break-inside-avoid"
+                  className="break-inside-avoid"
                 >
-                  <div className="relative rounded-lg overflow-hidden">
-                    <img
-                      src={project.thumbnail}
-                      alt={project.title}
-                      className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                      <div>
-                        <span className="text-primary text-xs uppercase tracking-wider font-body">
-                          {project.category}
-                        </span>
-                        <h3 className="font-display text-xl text-foreground mt-1 flex items-center gap-2">
-                          {project.title}
-                          <ExternalLink size={16} />
-                        </h3>
+                  <Link
+                    to={`/works/designs/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="group cursor-pointer block"
+                  >
+                    <div className="relative rounded-lg overflow-hidden">
+                      <img
+                        src={project.thumbnail}
+                        alt={project.title}
+                        className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
+                        <div>
+                          <span className="text-primary text-xs uppercase tracking-wider font-body">
+                            {project.category}
+                          </span>
+                          <h3 className="font-display text-xl text-foreground mt-1 flex items-center gap-2">
+                            {project.title}
+                            <ExternalLink size={16} />
+                          </h3>
+                        </div>
                       </div>
                     </div>
-                  </div>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>

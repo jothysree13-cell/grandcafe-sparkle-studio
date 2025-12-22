@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
@@ -117,29 +118,33 @@ const WorksVideo = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="group cursor-pointer"
                 >
-                  <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
-                    <img
-                      src={project.thumbnail}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center animate-glow-pulse">
-                        <Play className="text-primary-foreground ml-1" size={28} />
+                  <Link
+                    to={`/works/video/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="group cursor-pointer block"
+                  >
+                    <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
+                      <img
+                        src={project.thumbnail}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center animate-glow-pulse">
+                          <Play className="text-primary-foreground ml-1" size={28} />
+                        </div>
+                      </div>
+                      <div className="absolute bottom-3 right-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body">
+                        {project.duration}
                       </div>
                     </div>
-                    <div className="absolute bottom-3 right-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body">
-                      {project.duration}
-                    </div>
-                  </div>
-                  <span className="text-primary text-xs uppercase tracking-wider font-body">
-                    {project.category}
-                  </span>
-                  <h3 className="font-display text-xl text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
-                    {project.title}
-                  </h3>
+                    <span className="text-primary text-xs uppercase tracking-wider font-body">
+                      {project.category}
+                    </span>
+                    <h3 className="font-display text-xl text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
+                      {project.title}
+                    </h3>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>
