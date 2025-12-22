@@ -1,5 +1,6 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
@@ -132,28 +133,32 @@ const WorksPhotoshoot = () => {
                   initial={{ opacity: 0, scale: 0.9 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
-                  className="group cursor-pointer"
                 >
-                  <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
-                    <img
-                      src={project.thumbnail}
-                      alt={project.title}
-                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-background/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                      <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
-                        <ZoomIn className="text-primary-foreground" size={24} />
+                  <Link
+                    to={`/works/photoshoot/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+                    className="group cursor-pointer block"
+                  >
+                    <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
+                      <img
+                        src={project.thumbnail}
+                        alt={project.title}
+                        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                      />
+                      <div className="absolute inset-0 bg-background/70 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
+                          <ZoomIn className="text-primary-foreground" size={24} />
+                        </div>
+                      </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background to-transparent p-4">
+                        <span className="text-primary text-xs uppercase tracking-wider font-body">
+                          {project.category}
+                        </span>
+                        <h3 className="font-display text-lg text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
+                          {project.title}
+                        </h3>
                       </div>
                     </div>
-                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background to-transparent p-4">
-                      <span className="text-primary text-xs uppercase tracking-wider font-body">
-                        {project.category}
-                      </span>
-                      <h3 className="font-display text-lg text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
-                        {project.title}
-                      </h3>
-                    </div>
-                  </div>
+                  </Link>
                 </motion.div>
               ))}
             </motion.div>
