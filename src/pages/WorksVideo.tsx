@@ -1,6 +1,8 @@
-import { motion } from "framer-motion";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
+import { PortfolioFilter } from "@/components/PortfolioFilter";
 import { Play } from "lucide-react";
 
 const videoProjects = [
@@ -55,10 +57,21 @@ const videoProjects = [
 ];
 
 const WorksVideo = () => {
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const categories = useMemo(() => {
+    return [...new Set(videoProjects.map((p) => p.category))];
+  }, []);
+
+  const filteredProjects = useMemo(() => {
+    if (activeFilter === "All") return videoProjects;
+    return videoProjects.filter((p) => p.category === activeFilter);
+  }, [activeFilter]);
+
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
-      
+
       {/* Hero */}
       <section className="pt-32 pb-16 bg-gradient-dark">
         <div className="container mx-auto px-6">
@@ -80,42 +93,63 @@ const WorksVideo = () => {
         </div>
       </section>
 
-      {/* Projects Grid */}
+      {/* Filter & Projects Grid */}
       <section className="py-16">
         <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {videoProjects.map((project, i) => (
-              <motion.div
-                key={project.title}
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.5, delay: i * 0.1 }}
-                className="group cursor-pointer"
-              >
-                <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
-                  <img
-                    src={project.thumbnail}
-                    alt={project.title}
-                    className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                    <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center animate-glow-pulse">
-                      <Play className="text-primary-foreground ml-1" size={28} />
+          <PortfolioFilter
+            categories={categories}
+            activeFilter={activeFilter}
+            onFilterChange={setActiveFilter}
+          />
+
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeFilter}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+            >
+              {filteredProjects.map((project, i) => (
+                <motion.div
+                  key={project.title}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.4, delay: i * 0.05 }}
+                  className="group cursor-pointer"
+                >
+                  <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
+                    <img
+                      src={project.thumbnail}
+                      alt={project.title}
+                      className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    />
+                    <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                      <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center animate-glow-pulse">
+                        <Play className="text-primary-foreground ml-1" size={28} />
+                      </div>
+                    </div>
+                    <div className="absolute bottom-3 right-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body">
+                      {project.duration}
                     </div>
                   </div>
-                  <div className="absolute bottom-3 right-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body">
-                    {project.duration}
-                  </div>
-                </div>
-                <span className="text-primary text-xs uppercase tracking-wider font-body">
-                  {project.category}
-                </span>
-                <h3 className="font-display text-xl text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
-                  {project.title}
-                </h3>
-              </motion.div>
-            ))}
-          </div>
+                  <span className="text-primary text-xs uppercase tracking-wider font-body">
+                    {project.category}
+                  </span>
+                  <h3 className="font-display text-xl text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
+                    {project.title}
+                  </h3>
+                </motion.div>
+              ))}
+            </motion.div>
+          </AnimatePresence>
+
+          {filteredProjects.length === 0 && (
+            <div className="text-center py-16">
+              <p className="text-muted-foreground font-body">No projects found in this category.</p>
+            </div>
+          )}
         </div>
       </section>
 
