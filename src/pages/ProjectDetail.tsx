@@ -1,9 +1,13 @@
+import { useState } from "react";
 import { useParams, useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ArrowLeft } from "lucide-react";
+import { ArrowLeft, MessageCircle, Phone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { SimilarWorksSlider } from "@/components/SimilarWorksSlider";
+import { ChatWidget } from "@/components/ChatWidget";
+import { CallbackModal } from "@/components/CallbackModal";
 
 // Project data with descriptions
 const allProjects: Record<string, { title: string; category: string; description: string; thumbnail: string }[]> = {
@@ -53,6 +57,8 @@ const typeLabels: Record<string, string> = {
 const ProjectDetail = () => {
   const { type, slug } = useParams();
   const navigate = useNavigate();
+  const [isChatOpen, setIsChatOpen] = useState(false);
+  const [isCallbackOpen, setIsCallbackOpen] = useState(false);
 
   const projects = allProjects[type || ""] || [];
   const project = projects.find(
@@ -113,13 +119,47 @@ const ProjectDetail = () => {
                 <p className="text-muted-foreground text-lg mt-6 font-body leading-relaxed">
                   {project.description}
                 </p>
+
+                {/* Action Buttons */}
+                <div className="flex flex-wrap gap-4 mt-8">
+                  <Button
+                    onClick={() => setIsChatOpen(true)}
+                    className="gap-2"
+                    size="lg"
+                  >
+                    <MessageCircle size={20} />
+                    Chat Now
+                  </Button>
+                  <Button
+                    onClick={() => setIsCallbackOpen(true)}
+                    variant="outline"
+                    className="gap-2"
+                    size="lg"
+                  >
+                    <Phone size={20} />
+                    Request Callback
+                  </Button>
+                </div>
               </div>
             </div>
           </motion.div>
         </div>
       </section>
 
+      {/* Similar Works Slider */}
+      <SimilarWorksSlider
+        projects={projects}
+        currentSlug={slug || ""}
+        type={type || ""}
+      />
+
       <Footer />
+
+      {/* Chat Widget */}
+      <ChatWidget isOpen={isChatOpen} onClose={() => setIsChatOpen(false)} />
+
+      {/* Callback Modal */}
+      <CallbackModal isOpen={isCallbackOpen} onClose={() => setIsCallbackOpen(false)} />
     </main>
   );
 };
