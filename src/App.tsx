@@ -9,6 +9,7 @@ import WorksPhotoshoot from "./pages/WorksPhotoshoot";
 import WorksDesigns from "./pages/WorksDesigns";
 import WorksWebsites from "./pages/WorksWebsites";
 import Blog from "./pages/Blog";
+import BlogDetail from "./pages/BlogDetail";
 import ProjectDetail from "./pages/ProjectDetail";
 import NotFound from "./pages/NotFound";
 
@@ -28,6 +29,7 @@ const App = () => (
           <Route path="/works/websites" element={<WorksWebsites />} />
           <Route path="/works/:type/:slug" element={<ProjectDetail />} />
           <Route path="/blog" element={<Blog />} />
+          <Route path="/blog/:slug" element={<BlogDetail />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
