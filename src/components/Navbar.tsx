@@ -3,6 +3,7 @@ import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import logo from "@/assets/logo.png";
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -36,13 +37,7 @@ export const Navbar = () => {
         <div className="flex items-center justify-between">
           {/* Logo */}
           <Link to="/" className="flex items-center gap-2 group">
-            <div className="w-10 h-10 bg-primary rounded flex items-center justify-center">
-              <span className="font-display text-2xl text-primary-foreground">G</span>
-            </div>
-            <div className="flex flex-col">
-              <span className="font-display text-xl tracking-wide text-foreground">GRANDCAFE</span>
-              <span className="text-[10px] tracking-[0.3em] text-muted-foreground uppercase">Productions</span>
-            </div>
+            <img src={logo} alt="ADS Logo" className="w-12 h-12 rounded" />
           </Link>
 
           {/* Desktop Navigation */}
