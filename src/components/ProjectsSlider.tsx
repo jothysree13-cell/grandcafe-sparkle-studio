@@ -1,3 +1,4 @@
+import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Play, Camera, Palette } from "lucide-react";
@@ -7,8 +8,8 @@ import {
   CarouselItem,
   CarouselPrevious,
   CarouselNext,
+  type CarouselApi,
 } from "@/components/ui/carousel";
-
 const projects = [
   {
     title: "Fujitech Corporate Film",
@@ -61,6 +62,24 @@ const projects = [
 ];
 
 export const ProjectsSlider = () => {
+  const apiRef = useRef<CarouselApi>();
+  const intervalRef = useRef<NodeJS.Timeout>();
+
+  useEffect(() => {
+    const api = apiRef.current;
+    if (!api) return;
+
+    intervalRef.current = setInterval(() => {
+      api.scrollNext();
+    }, 3000);
+
+    return () => {
+      if (intervalRef.current) {
+        clearInterval(intervalRef.current);
+      }
+    };
+  }, [apiRef.current]);
+
   return (
     <section className="py-24 bg-background">
       <div className="container mx-auto px-6">
@@ -86,6 +105,7 @@ export const ProjectsSlider = () => {
           transition={{ duration: 0.6, delay: 0.2 }}
         >
           <Carousel
+            setApi={(api) => { apiRef.current = api; }}
             opts={{
               align: "start",
               loop: true,

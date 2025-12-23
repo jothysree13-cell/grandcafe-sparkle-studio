@@ -36,8 +36,12 @@ export const Navbar = () => {
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between">
           {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <img src={logo} alt="ADS Logo" className="w-12 h-12 rounded" />
+          <Link to="/" className="flex items-center gap-3 group">
+            <img src={logo} alt="Grandcafe Production Logo" className="w-12 h-12 rounded" />
+            <div className="flex flex-col leading-tight">
+              <span className="font-display text-lg text-foreground tracking-wide">GRANDCAFE</span>
+              <span className="font-display text-lg text-primary tracking-wide">PRODUCTION</span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
