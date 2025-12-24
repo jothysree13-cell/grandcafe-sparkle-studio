@@ -38,7 +38,7 @@ export const Navbar = () => {
           {/* Logo */}
           <Link to="/" className="flex items-center gap-3 group">
             <img src={logo} alt="Grandcafe Production Logo" className="w-12 h-12 rounded" />
-            <div className="flex flex-col leading-tight">
+            <div className="flex flex-col leading-none -space-y-1">
               <span className="font-display text-lg text-foreground tracking-wide font-bold">GRANDCAFE</span>
               <span className="font-display text-lg text-primary tracking-wide">PRODUCTION</span>
             </div>
