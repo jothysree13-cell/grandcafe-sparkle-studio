@@ -1,23 +1,21 @@
 import { motion } from "framer-motion";
-import { MapPin, Globe } from "lucide-react";
 
-const clientLocations = [
-  { name: "Kerala", country: "India" },
-  { name: "Bangalore", country: "India" },
-  { name: "Chennai", country: "India" },
-  { name: "Mumbai", country: "India" },
-  { name: "Gujarat", country: "India" },
-  { name: "Rajasthan", country: "India" },
-  { name: "Delhi", country: "India" },
-  { name: "Dubai", country: "UAE" },
-  { name: "Abu Dhabi", country: "UAE" },
-  { name: "Canada", country: "North America" },
-];
-
-const regions = [
-  { name: "India", count: 7, color: "bg-primary" },
-  { name: "Middle East", count: 2, color: "bg-chart-2" },
-  { name: "North America", count: 1, color: "bg-chart-3" },
+const clients = [
+  "Fujitec",
+  "Hilux Auto Electric",
+  "Jomis Foods",
+  "Toffee Tone",
+  "Centex",
+  "Brillex Paint",
+  "Crafics Studio",
+  "JB Interior",
+  "Regal Paints",
+  "Artiz Interior",
+  "QTTO",
+  "Fujitec Express",
+  "FinRight",
+  "Suminter India Organic",
+  "Spectra Decor",
 ];
 
 export const ClientsSection = () => {
@@ -36,59 +34,32 @@ export const ClientsSection = () => {
             OUR CLIENTS
           </h2>
           <p className="text-muted-foreground font-body mt-4 max-w-2xl mx-auto">
-            Serving clients across India, Middle East, and North America
+            Partnering with leading brands across industries
           </p>
         </motion.div>
 
-        {/* Region Stats */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-6 mb-12"
-        >
-          {regions.map((region, i) => (
-            <div
-              key={region.name}
-              className="flex items-center gap-3 px-6 py-4 bg-muted/30 rounded-xl border border-border"
-            >
-              <Globe className="text-primary" size={24} />
-              <div>
-                <p className="text-foreground font-display text-lg">{region.name}</p>
-                <p className="text-muted-foreground text-sm">{region.count} Location{region.count > 1 ? 's' : ''}</p>
-              </div>
-            </div>
-          ))}
-        </motion.div>
-
-        {/* Location Grid */}
+        {/* Clients Grid */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.3 }}
-          className="max-w-5xl mx-auto"
+          transition={{ duration: 0.6, delay: 0.2 }}
+          className="max-w-6xl mx-auto"
         >
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-            {clientLocations.map((location, i) => (
+            {clients.map((client, i) => (
               <motion.div
-                key={location.name}
+                key={client}
                 initial={{ opacity: 0, scale: 0.9 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: i * 0.05 }}
                 whileHover={{ scale: 1.05, y: -5 }}
-                className="relative p-4 bg-background rounded-xl border border-border hover:border-primary/50 transition-all duration-300 group cursor-default"
+                className="relative p-6 bg-background rounded-xl border border-border hover:border-primary/50 transition-all duration-300 group cursor-default flex items-center justify-center min-h-[80px]"
               >
-                <div className="flex items-center gap-2 mb-2">
-                  <div className="w-2 h-2 rounded-full bg-destructive animate-pulse" />
-                  <MapPin size={16} className="text-primary" />
-                </div>
-                <p className="font-display text-foreground text-sm group-hover:text-primary transition-colors">
-                  {location.name}
+                <p className="font-display text-foreground text-sm md:text-base text-center group-hover:text-primary transition-colors">
+                  {client}
                 </p>
-                <p className="text-muted-foreground text-xs mt-0.5">{location.country}</p>
               </motion.div>
             ))}
           </div>
