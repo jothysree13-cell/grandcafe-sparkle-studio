@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
+import { MediaModal } from "@/components/MediaModal";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { Camera, ZoomIn } from "lucide-react";
 
 const photoshootProjects = [
@@ -70,7 +71,9 @@ const photoshootProjects = [
 ];
 
 const WorksPhotoshoot = () => {
+  useScrollToTop();
   const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedImage, setSelectedImage] = useState<typeof photoshootProjects[0] | null>(null);
 
   const categories = useMemo(() => {
     return [...new Set(photoshootProjects.map((p) => p.category))];
@@ -134,8 +137,8 @@ const WorksPhotoshoot = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                 >
-                  <Link
-                    to={`/works/photoshoot/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+                  <div
+                    onClick={() => setSelectedImage(project)}
                     className="group cursor-pointer block"
                   >
                     <div className="relative aspect-[4/3] rounded-lg overflow-hidden">
@@ -158,7 +161,7 @@ const WorksPhotoshoot = () => {
                         </h3>
                       </div>
                     </div>
-                  </Link>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -173,6 +176,14 @@ const WorksPhotoshoot = () => {
       </section>
 
       <Footer />
+
+      <MediaModal
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        type="image"
+        src={selectedImage?.thumbnail.replace('w=600', 'w=1200') || ""}
+        title={selectedImage?.title || ""}
+      />
     </main>
   );
 };

@@ -1,9 +1,10 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
+import { MediaModal } from "@/components/MediaModal";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 import { Play } from "lucide-react";
 
 const videoProjects = [
@@ -11,54 +12,64 @@ const videoProjects = [
     title: "Fujitech Corporate Film",
     category: "Brand Film",
     thumbnail: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "2:30",
   },
   {
     title: "Toffee Tone Product Launch",
     category: "TV Commercial",
     thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "0:45",
   },
   {
     title: "JB Interior Showcase",
     category: "Promotional Video",
     thumbnail: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "1:15",
   },
   {
     title: "Suminter Organic Story",
     category: "Documentary",
     thumbnail: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "5:00",
   },
   {
     title: "Brillex Paint TVC",
     category: "TV Commercial",
     thumbnail: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "0:30",
   },
   {
     title: "Regal Paints Brand Film",
     category: "Brand Film",
     thumbnail: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "3:00",
   },
   {
     title: "Hilux Auto Electric",
     category: "Explainer Video",
     thumbnail: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "1:45",
   },
   {
     title: "FinRight Motion Graphics",
     category: "Animated Video",
     thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
+    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "1:00",
   },
 ];
 
 const WorksVideo = () => {
+  useScrollToTop();
   const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedVideo, setSelectedVideo] = useState<typeof videoProjects[0] | null>(null);
 
   const categories = useMemo(() => {
     return [...new Set(videoProjects.map((p) => p.category))];
@@ -119,8 +130,8 @@ const WorksVideo = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                 >
-                  <Link
-                    to={`/works/video/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+                  <div
+                    onClick={() => setSelectedVideo(project)}
                     className="group cursor-pointer block"
                   >
                     <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
@@ -144,7 +155,7 @@ const WorksVideo = () => {
                     <h3 className="font-display text-xl text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
                       {project.title}
                     </h3>
-                  </Link>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -159,6 +170,14 @@ const WorksVideo = () => {
       </section>
 
       <Footer />
+
+      <MediaModal
+        isOpen={!!selectedVideo}
+        onClose={() => setSelectedVideo(null)}
+        type="video"
+        src={selectedVideo?.videoUrl || ""}
+        title={selectedVideo?.title || ""}
+      />
     </main>
   );
 };

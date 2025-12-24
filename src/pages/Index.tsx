@@ -7,8 +7,10 @@ import { ClientsSection } from "@/components/ClientsSection";
 import { IndustriesSection } from "@/components/IndustriesSection";
 import { CTASection } from "@/components/CTASection";
 import { Footer } from "@/components/Footer";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 const Index = () => {
+  useScrollToTop();
   return (
     <main className="min-h-screen bg-background">
       <Navbar />
