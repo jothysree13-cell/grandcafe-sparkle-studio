@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { Calendar, User, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 const blogPosts = [
   {
@@ -70,6 +71,8 @@ const blogPosts = [
 const categories = ["All", "Marketing", "Digital", "Advertising", "Branding", "Social Media", "Video"];
 
 const Blog = () => {
+  useScrollToTop();
+  
   return (
     <main className="min-h-screen bg-background">
       <Navbar />

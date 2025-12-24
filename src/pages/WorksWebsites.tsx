@@ -3,6 +3,7 @@ import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { ExternalLink, Monitor, Smartphone } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
 
 const websiteProjects = [
   {
@@ -50,6 +51,8 @@ const websiteProjects = [
 ];
 
 const WorksWebsites = () => {
+  useScrollToTop();
+  
   return (
     <main className="min-h-screen bg-background">
       <Navbar />

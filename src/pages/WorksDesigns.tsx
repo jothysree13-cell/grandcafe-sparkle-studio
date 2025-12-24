@@ -1,10 +1,11 @@
 import { useState, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
-import { ExternalLink } from "lucide-react";
+import { MediaModal } from "@/components/MediaModal";
+import { useScrollToTop } from "@/hooks/useScrollToTop";
+import { ZoomIn } from "lucide-react";
 
 const designProjects = [
   {
@@ -55,7 +56,9 @@ const designProjects = [
 ];
 
 const WorksDesigns = () => {
+  useScrollToTop();
   const [activeFilter, setActiveFilter] = useState("All");
+  const [selectedImage, setSelectedImage] = useState<typeof designProjects[0] | null>(null);
 
   const categories = useMemo(() => {
     return [...new Set(designProjects.map((p) => p.category))];
@@ -117,8 +120,8 @@ const WorksDesigns = () => {
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                   className="break-inside-avoid"
                 >
-                  <Link
-                    to={`/works/designs/${project.title.toLowerCase().replace(/\s+/g, "-")}`}
+                  <div
+                    onClick={() => setSelectedImage(project)}
                     className="group cursor-pointer block"
                   >
                     <div className="relative rounded-lg overflow-hidden">
@@ -127,19 +130,21 @@ const WorksDesigns = () => {
                         alt={project.title}
                         className="w-full object-cover transition-transform duration-500 group-hover:scale-105"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-end p-6">
-                        <div>
-                          <span className="text-primary text-xs uppercase tracking-wider font-body">
-                            {project.category}
-                          </span>
-                          <h3 className="font-display text-xl text-foreground mt-1 flex items-center gap-2">
-                            {project.title}
-                            <ExternalLink size={16} />
-                          </h3>
+                      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                        <div className="w-14 h-14 rounded-full bg-primary flex items-center justify-center">
+                          <ZoomIn className="text-primary-foreground" size={24} />
                         </div>
                       </div>
+                      <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-background to-transparent p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                        <span className="text-primary text-xs uppercase tracking-wider font-body">
+                          {project.category}
+                        </span>
+                        <h3 className="font-display text-xl text-foreground mt-1">
+                          {project.title}
+                        </h3>
+                      </div>
                     </div>
-                  </Link>
+                  </div>
                 </motion.div>
               ))}
             </motion.div>
@@ -154,6 +159,14 @@ const WorksDesigns = () => {
       </section>
 
       <Footer />
+
+      <MediaModal
+        isOpen={!!selectedImage}
+        onClose={() => setSelectedImage(null)}
+        type="image"
+        src={selectedImage?.thumbnail.replace('w=600', 'w=1200') || ""}
+        title={selectedImage?.title || ""}
+      />
     </main>
   );
 };
