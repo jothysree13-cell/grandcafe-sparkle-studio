@@ -124,28 +124,24 @@ export const ClientReviewsSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: index * 0.05 }}
             viewport={{ once: true }}
-            className="flex-shrink-0 w-[400px] md:w-[500px] bg-card border border-border rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className="flex-shrink-0 w-[500px] md:w-[650px] h-[280px] md:h-[320px] bg-card border border-border rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
           >
             <div className="flex h-full">
-              {/* Left side - Image */}
-              <div className="w-1/3 flex-shrink-0">
+              {/* Left side - Image (60%) */}
+              <div className="w-[60%] flex-shrink-0 h-full">
                 <img
                   src={review.image}
-                  alt={review.name}
+                  alt={review.company}
                   className="w-full h-full object-cover"
                 />
               </div>
 
-              {/* Right side - Text */}
-              <div className="w-2/3 p-5 flex flex-col justify-center">
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4 line-clamp-4">
+              {/* Right side - Text (40%) */}
+              <div className="w-[40%] p-6 flex flex-col justify-center">
+                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
                   "{review.text}"
                 </p>
-                <div>
-                  <h4 className="font-semibold text-foreground">{review.name}</h4>
-                  <p className="text-xs text-primary">{review.role}</p>
-                  <p className="text-xs text-muted-foreground">{review.company}</p>
-                </div>
+                <p className="text-primary font-semibold">{review.company}</p>
               </div>
             </div>
           </motion.div>
