@@ -5,71 +5,113 @@ import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
 import { MediaModal } from "@/components/MediaModal";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
-import { Play } from "lucide-react";
+import { Play, Images } from "lucide-react";
 
-const videoProjects = [
+type MediaItem = {
+  type: "video" | "image";
+  src: string;
+};
+
+type VideoProject = {
+  title: string;
+  category: string;
+  thumbnail: string;
+  duration: string;
+  media: MediaItem[];
+};
+
+const videoProjects: VideoProject[] = [
   {
     title: "Fujitech Corporate Film",
     category: "Brand Film",
     thumbnail: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "2:30",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/3828552431/preview/stock-footage-man-in-winter-clothing-sitting-on-wooden-porch-of-dark-blue-cabin-with-two-dogs-static-shot.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1574717024653-61fd2cf4d44d?w=1200&q=80" },
+      { type: "image", src: "https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80" },
+    ],
   },
   {
     title: "Toffee Tone Product Launch",
     category: "TV Commercial",
     thumbnail: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "0:45",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/3511533635/preview/stock-footage-water-being-sprayed-over-fresh-organic-blueberries-healthy-eating-concept.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1492691527719-9d1e07e534b4?w=1200&q=80" },
+    ],
   },
   {
     title: "JB Interior Showcase",
     category: "Promotional Video",
     thumbnail: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "1:15",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/1110919865/preview/stock-footage-woman-cutting-cucumbers-on-a-cutting-board-for-healthy-vegetable-dinner.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80" },
+      { type: "image", src: "https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80" },
+      { type: "image", src: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1200&q=80" },
+    ],
   },
   {
     title: "Suminter Organic Story",
     category: "Documentary",
     thumbnail: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "5:00",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/3511533635/preview/stock-footage-water-being-sprayed-over-fresh-organic-blueberries-healthy-eating-concept.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=1200&q=80" },
+    ],
   },
   {
     title: "Brillex Paint TVC",
     category: "TV Commercial",
     thumbnail: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "0:30",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/3828552431/preview/stock-footage-man-in-winter-clothing-sitting-on-wooden-porch-of-dark-blue-cabin-with-two-dogs-static-shot.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=1200&q=80" },
+      { type: "image", src: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=1200&q=80" },
+    ],
   },
   {
     title: "Regal Paints Brand Film",
     category: "Brand Film",
     thumbnail: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "3:00",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/1110919865/preview/stock-footage-woman-cutting-cucumbers-on-a-cutting-board-for-healthy-vegetable-dinner.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?w=1200&q=80" },
+    ],
   },
   {
     title: "Hilux Auto Electric",
     category: "Explainer Video",
     thumbnail: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "1:45",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/3511533635/preview/stock-footage-water-being-sprayed-over-fresh-organic-blueberries-healthy-eating-concept.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=1200&q=80" },
+      { type: "image", src: "https://images.unsplash.com/photo-1494976388531-d1058494cdd8?w=1200&q=80" },
+    ],
   },
   {
     title: "FinRight Motion Graphics",
     category: "Animated Video",
     thumbnail: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=80",
-    videoUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
     duration: "1:00",
+    media: [
+      { type: "video", src: "https://www.shutterstock.com/shutterstock/videos/3828552431/preview/stock-footage-man-in-winter-clothing-sitting-on-wooden-porch-of-dark-blue-cabin-with-two-dogs-static-shot.webm" },
+      { type: "image", src: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200&q=80" },
+    ],
   },
 ];
 
 const WorksVideo = () => {
   useScrollToTop();
   const [activeFilter, setActiveFilter] = useState("All");
-  const [selectedVideo, setSelectedVideo] = useState<typeof videoProjects[0] | null>(null);
+  const [selectedProject, setSelectedProject] = useState<VideoProject | null>(null);
 
   const categories = useMemo(() => {
     return [...new Set(videoProjects.map((p) => p.category))];
@@ -131,7 +173,7 @@ const WorksVideo = () => {
                   transition={{ duration: 0.4, delay: i * 0.05 }}
                 >
                   <div
-                    onClick={() => setSelectedVideo(project)}
+                    onClick={() => setSelectedProject(project)}
                     className="group cursor-pointer block"
                   >
                     <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
@@ -148,6 +190,12 @@ const WorksVideo = () => {
                       <div className="absolute bottom-3 right-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body">
                         {project.duration}
                       </div>
+                      {project.media.length > 1 && (
+                        <div className="absolute bottom-3 left-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body flex items-center gap-1">
+                          <Images size={14} />
+                          {project.media.length}
+                        </div>
+                      )}
                     </div>
                     <span className="text-primary text-xs uppercase tracking-wider font-body">
                       {project.category}
@@ -172,11 +220,10 @@ const WorksVideo = () => {
       <Footer />
 
       <MediaModal
-        isOpen={!!selectedVideo}
-        onClose={() => setSelectedVideo(null)}
-        type="video"
-        src={selectedVideo?.videoUrl || ""}
-        title={selectedVideo?.title || ""}
+        isOpen={!!selectedProject}
+        onClose={() => setSelectedProject(null)}
+        title={selectedProject?.title || ""}
+        media={selectedProject?.media || []}
       />
     </main>
   );
