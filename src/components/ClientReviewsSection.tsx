@@ -92,8 +92,8 @@ export const ClientReviewsSection = () => {
   const duplicatedReviews = [...reviews, ...reviews];
 
   return (
-    <section className="py-20 bg-muted/30">
-      <div className="container mx-auto px-4 mb-12">
+    <section className="py-10 md:py-20 bg-muted/30">
+      <div className="container mx-auto px-4 mb-6 md:mb-12">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -101,10 +101,10 @@ export const ClientReviewsSection = () => {
           viewport={{ once: true }}
           className="text-center"
         >
-          <h2 className="font-display text-4xl md:text-5xl text-foreground mb-4">
+          <h2 className="font-display text-2xl md:text-5xl text-foreground mb-2 md:mb-4">
             CLIENT <span className="text-primary">REVIEWS</span>
           </h2>
-          <p className="text-muted-foreground max-w-2xl mx-auto">
+          <p className="text-muted-foreground max-w-2xl mx-auto text-xs md:text-base">
             Hear what our clients have to say about working with us
           </p>
         </motion.div>
@@ -114,7 +114,7 @@ export const ClientReviewsSection = () => {
         ref={scrollRef}
         onMouseEnter={() => setIsHovered(true)}
         onMouseLeave={() => setIsHovered(false)}
-        className="flex gap-6 overflow-hidden cursor-grab active:cursor-grabbing"
+        className="flex gap-3 md:gap-6 overflow-hidden cursor-grab active:cursor-grabbing"
         style={{ scrollBehavior: "auto" }}
       >
         {duplicatedReviews.map((review, index) => (
@@ -124,7 +124,7 @@ export const ClientReviewsSection = () => {
             whileInView={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: index * 0.05 }}
             viewport={{ once: true }}
-            className="flex-shrink-0 w-[500px] md:w-[650px] h-[280px] md:h-[320px] bg-card border border-border rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
+            className="flex-shrink-0 w-[280px] md:w-[650px] h-[160px] md:h-[320px] bg-card border border-border rounded-lg md:rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow duration-300"
           >
             <div className="flex h-full">
               {/* Left side - Image (60%) */}
@@ -137,11 +137,11 @@ export const ClientReviewsSection = () => {
               </div>
 
               {/* Right side - Text (40%) */}
-              <div className="w-[40%] p-6 flex flex-col justify-center">
-                <p className="text-muted-foreground text-sm leading-relaxed mb-4">
+              <div className="w-[40%] p-3 md:p-6 flex flex-col justify-center">
+                <p className="text-muted-foreground text-xs md:text-sm leading-relaxed mb-2 md:mb-4 line-clamp-4 md:line-clamp-none">
                   "{review.text}"
                 </p>
-                <p className="text-primary font-semibold">{review.company}</p>
+                <p className="text-primary font-semibold text-xs md:text-base">{review.company}</p>
               </div>
             </div>
           </motion.div>

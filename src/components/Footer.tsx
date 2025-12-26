@@ -3,7 +3,7 @@ import { Mail, Phone, MapPin, Facebook, Instagram, Linkedin, Youtube } from "luc
 
 export const Footer = () => {
   return (
-    <footer className="bg-card border-t border-border">
+    <footer className="hidden md:block bg-card border-t border-border">
       <div className="container mx-auto px-6 py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
           {/* Brand */}
