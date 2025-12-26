@@ -36,7 +36,7 @@ const steps = [
 
 export const ProcessSection = () => {
   return (
-    <section className="py-24 bg-background">
+    <section className="hidden md:block py-24 bg-background">
       <div className="container mx-auto px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}

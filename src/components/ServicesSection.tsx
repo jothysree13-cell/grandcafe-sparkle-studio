@@ -30,22 +30,22 @@ const services = [
 
 export const ServicesSection = () => {
   return (
-    <section className="py-24 bg-gradient-dark">
-      <div className="container mx-auto px-6">
+    <section className="py-12 md:py-24 bg-gradient-dark">
+      <div className="container mx-auto px-4 md:px-6">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6 }}
-          className="text-center mb-16"
+          className="text-center mb-8 md:mb-16"
         >
-          <span className="text-primary font-body text-sm uppercase tracking-widest">What We Do</span>
-          <h2 className="font-display text-4xl md:text-6xl text-foreground mt-4">
+          <span className="text-primary font-body text-xs md:text-sm uppercase tracking-widest">What We Do</span>
+          <h2 className="font-display text-2xl md:text-6xl text-foreground mt-2 md:mt-4">
             OUR SERVICES
           </h2>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-3 md:gap-8">
           {services.map((service, i) => (
             <motion.div
               key={service.title}
@@ -53,28 +53,28 @@ export const ServicesSection = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: i * 0.1 }}
-              className="group relative bg-gradient-card border border-border rounded-lg p-8 hover:border-primary/50 transition-all duration-500 overflow-hidden"
+              className="group relative bg-gradient-card border border-border rounded-lg p-4 md:p-8 hover:border-primary/50 transition-all duration-500 overflow-hidden"
             >
               {/* Glow effect on hover */}
               <div className="absolute inset-0 bg-primary/5 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
               
               <div className="relative z-10">
-                <div className="w-14 h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors duration-300">
-                  <service.icon className="text-primary" size={28} />
+                <div className="w-10 h-10 md:w-14 md:h-14 rounded-lg bg-primary/10 flex items-center justify-center mb-3 md:mb-6 group-hover:bg-primary/20 transition-colors duration-300">
+                  <service.icon className="text-primary" size={20} />
                 </div>
                 
-                <h3 className="font-display text-2xl text-foreground mb-4">
+                <h3 className="font-display text-base md:text-2xl text-foreground mb-2 md:mb-4">
                   {service.title}
                 </h3>
                 
-                <p className="text-muted-foreground mb-6 font-body">
+                <p className="text-muted-foreground mb-3 md:mb-6 font-body text-xs md:text-base hidden md:block">
                   {service.description}
                 </p>
                 
-                <ul className="space-y-2">
+                <ul className="space-y-1 md:space-y-2 hidden md:block">
                   {service.features.map((feature) => (
-                    <li key={feature} className="flex items-center gap-2 text-sm text-muted-foreground">
-                      <span className="w-1.5 h-1.5 bg-primary rounded-full" />
+                    <li key={feature} className="flex items-center gap-2 text-xs md:text-sm text-muted-foreground">
+                      <span className="w-1 h-1 md:w-1.5 md:h-1.5 bg-primary rounded-full" />
                       {feature}
                     </li>
                   ))}
