@@ -3,9 +3,8 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "react-router-dom";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { PortfolioFilter } from "@/components/PortfolioFilter";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
-import { Play, Images } from "lucide-react";
+import { Play, Images, ArrowLeft } from "lucide-react";
 
 type VideoProject = {
   title: string;
@@ -74,6 +73,16 @@ const videoProjects: VideoProject[] = [
   },
 ];
 
+const mobileCategories = [
+  "All",
+  "Brand Film",
+  "TV Commercial",
+  "Promotional Video",
+  "Documentary",
+  "Explainer Video",
+  "Animated Video",
+];
+
 const WorksVideo = () => {
   useScrollToTop();
   const [activeFilter, setActiveFilter] = useState("All");
@@ -93,10 +102,42 @@ const WorksVideo = () => {
 
   return (
     <main className="min-h-screen bg-background">
-      <Navbar />
+      {/* Desktop Navbar */}
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
 
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-gradient-dark">
+      {/* Mobile Sticky Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
+        <div className="flex items-center px-4 py-3">
+          <Link to="/" className="mr-3">
+            <ArrowLeft size={24} className="text-foreground" />
+          </Link>
+          <h1 className="font-display text-xl text-foreground">Videos</h1>
+        </div>
+        
+        {/* Mobile Sticky Filter */}
+        <div className="px-4 pb-3 overflow-x-auto scrollbar-hide">
+          <div className="flex gap-2 whitespace-nowrap">
+            {mobileCategories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveFilter(category)}
+                className={`px-3 py-1.5 rounded-full text-xs font-body transition-all duration-300 ${
+                  activeFilter === category
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Hero - Desktop Only */}
+      <section className="hidden md:block pt-32 pb-16 bg-gradient-dark">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -117,13 +158,36 @@ const WorksVideo = () => {
       </section>
 
       {/* Filter & Projects Grid */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <PortfolioFilter
-            categories={categories}
-            activeFilter={activeFilter}
-            onFilterChange={setActiveFilter}
-          />
+      <section className="py-4 md:py-16 pt-28 md:pt-16">
+        <div className="container mx-auto px-4 md:px-6">
+          {/* Desktop Filter */}
+          <div className="hidden md:block mb-8">
+            <div className="flex flex-wrap gap-4">
+              <button
+                onClick={() => setActiveFilter("All")}
+                className={`px-4 py-2 rounded-full text-sm font-body transition-all duration-300 ${
+                  activeFilter === "All"
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground hover:bg-muted/80"
+                }`}
+              >
+                All
+              </button>
+              {categories.map((category) => (
+                <button
+                  key={category}
+                  onClick={() => setActiveFilter(category)}
+                  className={`px-4 py-2 rounded-full text-sm font-body transition-all duration-300 ${
+                    activeFilter === category
+                      ? "bg-primary text-primary-foreground"
+                      : "bg-muted text-muted-foreground hover:bg-muted/80"
+                  }`}
+                >
+                  {category}
+                </button>
+              ))}
+            </div>
+          </div>
 
           <AnimatePresence mode="wait">
             <motion.div
@@ -132,7 +196,7 @@ const WorksVideo = () => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 md:gap-8"
             >
               {filteredProjects.map((project, i) => (
                 <motion.div
@@ -145,31 +209,31 @@ const WorksVideo = () => {
                     to={`/works/video/${getProjectSlug(project.title)}`}
                     className="group cursor-pointer block"
                   >
-                    <div className="relative aspect-video rounded-lg overflow-hidden mb-4">
+                    <div className="relative aspect-video rounded-lg overflow-hidden mb-2 md:mb-4">
                       <img
                         src={project.thumbnail}
                         alt={project.title}
                         className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
                       />
                       <div className="absolute inset-0 bg-background/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
-                        <div className="w-16 h-16 rounded-full bg-primary flex items-center justify-center animate-glow-pulse">
-                          <Play className="text-primary-foreground ml-1" size={28} />
+                        <div className="w-10 h-10 md:w-16 md:h-16 rounded-full bg-primary flex items-center justify-center animate-glow-pulse">
+                          <Play className="text-primary-foreground ml-0.5 md:ml-1" size={20} />
                         </div>
                       </div>
-                      <div className="absolute bottom-3 right-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body">
+                      <div className="absolute bottom-2 md:bottom-3 right-2 md:right-3 px-1.5 md:px-2 py-0.5 md:py-1 bg-background/80 rounded text-[10px] md:text-xs text-foreground font-body">
                         {project.duration}
                       </div>
                       {project.mediaCount > 1 && (
-                        <div className="absolute bottom-3 left-3 px-2 py-1 bg-background/80 rounded text-xs text-foreground font-body flex items-center gap-1">
-                          <Images size={14} />
+                        <div className="absolute bottom-2 md:bottom-3 left-2 md:left-3 px-1.5 md:px-2 py-0.5 md:py-1 bg-background/80 rounded text-[10px] md:text-xs text-foreground font-body flex items-center gap-1">
+                          <Images size={12} />
                           {project.mediaCount}
                         </div>
                       )}
                     </div>
-                    <span className="text-primary text-xs uppercase tracking-wider font-body">
+                    <span className="text-primary text-[10px] md:text-xs uppercase tracking-wider font-body">
                       {project.category}
                     </span>
-                    <h3 className="font-display text-xl text-foreground mt-1 group-hover:text-primary transition-colors duration-300">
+                    <h3 className="font-display text-sm md:text-xl text-foreground mt-0.5 md:mt-1 group-hover:text-primary transition-colors duration-300 line-clamp-1">
                       {project.title}
                     </h3>
                   </Link>
