@@ -5,7 +5,8 @@ import { Footer } from "@/components/Footer";
 import { PortfolioFilter } from "@/components/PortfolioFilter";
 import { MediaModal } from "@/components/MediaModal";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
-import { ZoomIn } from "lucide-react";
+import { ZoomIn, ArrowLeft } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const designProjects = [
   {
@@ -57,6 +58,7 @@ const designProjects = [
 
 const WorksDesigns = () => {
   useScrollToTop();
+  const navigate = useNavigate();
   const [activeFilter, setActiveFilter] = useState("All");
   const [selectedImage, setSelectedImage] = useState<typeof designProjects[0] | null>(null);
 
@@ -71,10 +73,55 @@ const WorksDesigns = () => {
 
   return (
     <main className="min-h-screen bg-background">
-      <Navbar />
+      {/* Desktop Navbar */}
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
 
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-gradient-dark">
+      {/* Mobile Sticky Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
+        <div className="flex items-center px-4 py-4">
+          <button 
+            onClick={() => navigate('/')}
+            className="p-2 -ml-2"
+          >
+            <ArrowLeft size={24} className="text-foreground" />
+          </button>
+          <h1 className="font-display text-xl text-foreground ml-2">Designs</h1>
+        </div>
+        
+        {/* Mobile Horizontal Scrollable Filter */}
+        <div className="overflow-x-auto scrollbar-hide border-t border-border">
+          <div className="flex gap-2 px-4 py-3 min-w-max">
+            <button
+              onClick={() => setActiveFilter("All")}
+              className={`px-4 py-2 rounded-full text-sm font-body whitespace-nowrap transition-all ${
+                activeFilter === "All"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              All
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveFilter(category)}
+                className={`px-4 py-2 rounded-full text-sm font-body whitespace-nowrap transition-all ${
+                  activeFilter === category
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* Hero - Hidden on Mobile */}
+      <section className="hidden md:block pt-32 pb-16 bg-gradient-dark">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -95,13 +142,16 @@ const WorksDesigns = () => {
       </section>
 
       {/* Filter & Projects Grid */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <PortfolioFilter
-            categories={categories}
-            activeFilter={activeFilter}
-            onFilterChange={setActiveFilter}
-          />
+      <section className="pt-32 md:pt-0 py-6 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          {/* Desktop Filter */}
+          <div className="hidden md:block">
+            <PortfolioFilter
+              categories={categories}
+              activeFilter={activeFilter}
+              onFilterChange={setActiveFilter}
+            />
+          </div>
 
           <AnimatePresence mode="wait">
             <motion.div
