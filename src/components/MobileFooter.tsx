@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Home, Grid, MessageCircle, Menu, X, Video, Camera, Palette, Globe } from 'lucide-react';
+import { Home, Grid, MessageCircle, Phone, X, Video, Camera, Palette, Globe } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const workTypes = [
@@ -43,16 +43,17 @@ const MobileFooter = () => {
     { icon: Home, label: 'Home', path: '/', action: 'link' },
     { icon: Grid, label: 'Works', path: '/works', action: 'modal' },
     { icon: MessageCircle, label: 'Chat', path: '#chat', action: 'chat' },
-    { icon: Menu, label: 'Menu', path: '/menu', action: 'menu' }
+    { icon: Phone, label: 'Call', path: 'tel:+919446464195', action: 'call' }
   ];
 
   const handleNavClick = (item: typeof navItems[0]) => {
     if (item.action === 'modal') {
       setIsWorksOpen(true);
     } else if (item.action === 'chat') {
-      // Trigger chat widget - you can customize this
       const chatButton = document.querySelector('[data-chat-trigger]') as HTMLButtonElement;
       if (chatButton) chatButton.click();
+    } else if (item.action === 'call') {
+      window.location.href = 'tel:+919446464195';
     }
   };
 
