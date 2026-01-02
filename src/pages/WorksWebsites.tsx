@@ -1,9 +1,11 @@
-import { motion } from "framer-motion";
+import { useState, useMemo } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { Navbar } from "@/components/Navbar";
 import { Footer } from "@/components/Footer";
-import { ExternalLink, Monitor, Smartphone } from "lucide-react";
+import { ExternalLink, Monitor, Smartphone, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useScrollToTop } from "@/hooks/useScrollToTop";
+import { useNavigate } from "react-router-dom";
 
 const websiteProjects = [
   {
@@ -52,13 +54,69 @@ const websiteProjects = [
 
 const WorksWebsites = () => {
   useScrollToTop();
+  const navigate = useNavigate();
+  const [activeFilter, setActiveFilter] = useState("All");
+
+  const categories = useMemo(() => {
+    return [...new Set(websiteProjects.map((p) => p.category))];
+  }, []);
+
+  const filteredProjects = useMemo(() => {
+    if (activeFilter === "All") return websiteProjects;
+    return websiteProjects.filter((p) => p.category === activeFilter);
+  }, [activeFilter]);
   
   return (
     <main className="min-h-screen bg-background">
-      <Navbar />
+      {/* Desktop Navbar */}
+      <div className="hidden md:block">
+        <Navbar />
+      </div>
+
+      {/* Mobile Sticky Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 z-50 bg-background border-b border-border">
+        <div className="flex items-center px-4 py-4">
+          <button 
+            onClick={() => navigate('/')}
+            className="p-2 -ml-2"
+          >
+            <ArrowLeft size={24} className="text-foreground" />
+          </button>
+          <h1 className="font-display text-xl text-foreground ml-2">Websites</h1>
+        </div>
+        
+        {/* Mobile Horizontal Scrollable Filter */}
+        <div className="overflow-x-auto scrollbar-hide border-t border-border">
+          <div className="flex gap-2 px-4 py-3 min-w-max">
+            <button
+              onClick={() => setActiveFilter("All")}
+              className={`px-4 py-2 rounded-full text-sm font-body whitespace-nowrap transition-all ${
+                activeFilter === "All"
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-muted-foreground"
+              }`}
+            >
+              All
+            </button>
+            {categories.map((category) => (
+              <button
+                key={category}
+                onClick={() => setActiveFilter(category)}
+                className={`px-4 py-2 rounded-full text-sm font-body whitespace-nowrap transition-all ${
+                  activeFilter === category
+                    ? "bg-primary text-primary-foreground"
+                    : "bg-muted text-muted-foreground"
+                }`}
+              >
+                {category}
+              </button>
+            ))}
+          </div>
+        </div>
+      </div>
       
-      {/* Hero */}
-      <section className="pt-32 pb-16 bg-gradient-dark">
+      {/* Hero - Hidden on Mobile */}
+      <section className="hidden md:block pt-32 pb-16 bg-gradient-dark">
         <div className="container mx-auto px-6">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
@@ -79,10 +137,18 @@ const WorksWebsites = () => {
       </section>
 
       {/* Projects Grid */}
-      <section className="py-16">
-        <div className="container mx-auto px-6">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-            {websiteProjects.map((project, i) => (
+      <section className="pt-32 md:pt-0 py-6 md:py-16">
+        <div className="container mx-auto px-4 md:px-6">
+          <AnimatePresence mode="wait">
+            <motion.div
+              key={activeFilter}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              transition={{ duration: 0.3 }}
+              className="grid grid-cols-1 lg:grid-cols-2 gap-10"
+            >
+            {filteredProjects.map((project, i) => (
               <motion.div
                 key={project.title}
                 initial={{ opacity: 0, y: 30 }}
@@ -147,7 +213,8 @@ const WorksWebsites = () => {
                 </div>
               </motion.div>
             ))}
-          </div>
+            </motion.div>
+          </AnimatePresence>
         </div>
       </section>
 
